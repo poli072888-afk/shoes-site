@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👠 Luxury Shoes Gallery</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    color: #fff;
+}
+.header {
+    text-align: center;
+    padding: 40px 20px 20px;
+}
+.header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #e94560, #ff6b6b, #feca57);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+}
+.header p { color: #a0a0a0; font-size: 16px; }
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.filter-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #ccc;
+    padding: 10px 22px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+.filter-btn:hover {
+    background: rgba(233,69,96,0.2);
+    border-color: #e94560;
+    color: #fff;
+}
+.filter-btn.active {
+    background: linear-gradient(135deg, #e94560, #ff6b6b);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(233,69,96,0.4);
+}
+.stats {
+    text-align: center;
+    padding: 15px;
+    color: #888;
+    font-size: 14px;
+}
+.stats span { color: #e94560; font-weight: 700; }
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+.item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(233,69,96,0.15);
+    border-color: rgba(233,69,96,0.3);
+}
+.item img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+.item:hover img { transform: scale(1.08); }
+.item-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+.item:hover .item-info { transform: translateY(0); }
+.item-brand {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e94560;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.item-name { font-size: 12px; color: #aaa; margin-top: 4px; }
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+.lightbox.active { display: flex; }
+.lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+}
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.lightbox-close:hover { opacity: 1; }
+@media (max-width: 768px) {
+    .header h1 { font-size: 28px; }
+    .gallery { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
+    .item img { height: 200px; }
+    .filter-btn { padding: 8px 16px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>👠 Luxury Shoes</h1>
+    <p>Premium Collection 2026</p>
+</div>
+<div class="filters">
+    <button class="filter-btn active" onclick="filterAll()">Все бренды</button>
+    <button class="filter-btn" onclick="filterBrand('ASICS')">Asics</button>
+    <button class="filter-btn" onclick="filterBrand('BALENCIAGA')">Balenciaga</button>
+    <button class="filter-btn" onclick="filterBrand('BALMAIN')">Balmain</button>
+    <button class="filter-btn" onclick="filterBrand('BIRKENSTOCK')">Birkenstock</button>
+    <button class="filter-btn" onclick="filterBrand('CHANEL')">Chanel</button>
+    <button class="filter-btn" onclick="filterBrand('CHRISTIAN_LOUBOUTIN')">Christian Louboutin</button>
+    <button class="filter-btn" onclick="filterBrand('DIOR')">Dior</button>
+    <button class="filter-btn" onclick="filterBrand('FENDI')">Fendi</button>
+    <button class="filter-btn" onclick="filterBrand('FERRAGAMO')">Ferragamo</button>
+    <button class="filter-btn" onclick="filterBrand('GUCCI')">Gucci</button>
+    <button class="filter-btn" onclick="filterBrand('JACQUEMUS')">Jacquemus</button>
+    <button class="filter-btn" onclick="filterBrand('JIMMY_CHOO')">Jimmy Choo</button>
+    <button class="filter-btn" onclick="filterBrand('MIU_MIU')">Miu Miu</button>
+    <button class="filter-btn" onclick="filterBrand('NEW_BALANCE')">New Balance</button>
+    <button class="filter-btn" onclick="filterBrand('PRADA')">Prada</button>
+    <button class="filter-btn" onclick="filterBrand('SALOMON')">Salomon</button>
+    <button class="filter-btn" onclick="filterBrand('UGG')">UGG</button>
+    <button class="filter-btn" onclick="filterBrand('VALENTINO')">Valentino</button>
+</div>
+<div class="stats" id="stats"></div>
+<div class="gallery" id="gallery"></div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+</div>
+<script>
+const brands = {
+    'ASICS': 12, 'BALENCIAGA': 96, 'BALMAIN': 96, 'BIRKENSTOCK': 54,
+    'CHANEL': 96, 'CHRISTIAN_LOUBOUTIN': 192, 'DIOR': 93, 'FENDI': 96,
+    'FERRAGAMO': 96, 'GUCCI': 96, 'JACQUEMUS': 96, 'JIMMY_CHOO': 96,
+    'MIU_MIU': 96, 'NEW_BALANCE': 3, 'PRADA': 96, 'SALOMON': 54,
+    'UGG': 54, 'VALENTINO': 96
+};
+const gallery = document.getElementById('gallery');
+let totalItems = 0;
+for (const [brand, count] of Object.entries(brands)) {
+    const prefix = brand.toLowerCase().replace('_', '_');
+    for (let i = 1; i <= count; i++) {
+        const num = String(i).padStart(3, '0');
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.dataset.brand = brand;
+        div.onclick = () => openLightbox(`${brand}/${prefix}_${num}.jpg`);
+        div.innerHTML = `
+            <img src="${brand}/${prefix}_${num}.jpg" alt="${brand}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='none'">
+            <div class="item-info">
+                <div class="item-brand">${brand.replace(/_/g, ' ')}</div>
+                <div class="item-name">#${num}</div>
+            </div>
+        `;
+        gallery.appendChild(div);
+        totalItems++;
+    }
+}
+function filterAll() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('.item').forEach(item => item.style.display = 'block');
+    updateStats(document.querySelectorAll('.item').length);
+}
+function filterBrand(brand) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('.item').forEach(item => {
+        item.style.display = item.dataset.brand === brand ? 'block' : 'none';
+    });
+    updateStats(document.querySelectorAll('.item[data-brand="' + brand + '"]').length);
+}
+function updateStats(count) {
+    document.getElementById('stats').innerHTML = 'Показано: <span>' + count + '</span> фото';
+}
+function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+}
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+});
+updateStats(totalItems);
+</script>
+</body>
+</html>
