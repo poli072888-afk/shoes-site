@@ -152,8 +152,17 @@ body {
 </head>
 <body>
 <div class="header">
-    <h1>👠 Luxury Shoes</h1>
-    <p>Premium Collection 2026</p>
+    <h1>👠 Luxury Collection</h1>
+</div>
+<div style="text-align:center;padding:15px;">
+    <a href="https://t.me/Poli_China888" target="_blank" style="background:#0088cc;color:white;padding:10px 20px;border-radius:25px;text-decoration:none;margin:5px;display:inline-block;">📱 Telegram</a>
+    <a href="https://wa.me/79828242113" target="_blank" style="background:#25d366;color:white;padding:10px 20px;border-radius:25px;text-decoration:none;margin:5px;display:inline-block;">💬 WhatsApp +7 982 824-21-13</a>
+    <a href="https://wa.me/79090584219" target="_blank" style="background:#25d366;color:white;padding:10px 20px;border-radius:25px;text-decoration:none;margin:5px;display:inline-block;">💬 WhatsApp +7 909 058-42-19</a>
+</div>
+<div style="text-align:center;padding:15px;">
+    <button onclick="showSection('shoes')" style="background:#e94560;color:white;padding:12px 30px;border:none;border-radius:30px;cursor:pointer;margin:5px;font-size:16px;">👠 Обувь</button>
+    <button onclick="showSection('bags')" style="background:#333;color:white;padding:12px 30px;border:none;border-radius:30px;cursor:pointer;margin:5px;font-size:16px;">👜 Сумки</button>
+    <button onclick="showSection('jewelry')" style="background:#333;color:white;padding:12px 30px;border:none;border-radius:30px;cursor:pointer;margin:5px;font-size:16px;">💍 Украшения</button>
 </div>
 <div class="filters">
     <button class="filter-btn active" onclick="filterAll()">Все бренды</button>
@@ -239,6 +248,36 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
 });
 updateStats(totalItems);
+
+function showSection(section) {
+    document.querySelectorAll('.gallery').forEach(g => g.style.display = 'none');
+    document.getElementById(section + '-gallery').style.display = 'grid';
+    document.querySelectorAll('button').forEach(b => b.style.background = '#333');
+    event.target.style.background = '#e94560';
+}
+
+// Generate bags
+const bagsGallery = document.createElement('div');
+bagsGallery.id = 'bags-gallery';
+bagsGallery.className = 'gallery';
+bagsGallery.style.display = 'none';
+for (let i = 1; i <= 96; i++) {
+    const num = String(i).padStart(3, '0');
+    bagsGallery.innerHTML += '<div class="item" onclick="openLightbox(\'BAGS/bag_' + num + '.jpg\')"><img src="BAGS/bag_' + num + '.jpg" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.style.display=\'none\'"><div class="item-info"><div class="item-brand">Сумка</div><div class="item-name">#' + num + '</div></div></div>';
+}
+document.body.appendChild(bagsGallery);
+
+// Generate jewelry
+const jewelryGallery = document.createElement('div');
+jewelryGallery.id = 'jewelry-gallery';
+jewelryGallery.className = 'gallery';
+jewelryGallery.style.display = 'none';
+for (let i = 1; i <= 96; i++) {
+    const num = String(i).padStart(3, '0');
+    jewelryGallery.innerHTML += '<div class="item" onclick="openLightbox(\'JEWELRY/jewelry_' + num + '.jpg\')"><img src="JEWELRY/jewelry_' + num + '.jpg" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.style.display=\'none\'"><div class="item-info"><div class="item-brand">Украшение</div><div class="item-name">#' + num + '</div></div></div>';
+}
+document.body.appendChild(jewelryGallery);
 </script>
+
 </body>
 </html>
